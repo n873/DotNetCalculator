@@ -19,7 +19,7 @@ namespace Calculator.Mobile
                 .Build();
 
             MainPage = new ContentPage();
-            host.AddComponent<HelloWorld>(parent: MainPage);
+            host.AddComponent<CalcMain>(parent: MainPage);
         }
 
         protected override void OnStart()

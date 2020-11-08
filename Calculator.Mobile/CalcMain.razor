@@ -1,0 +1,110 @@
+﻿<ContentView>
+    <StackLayout Margin="new Thickness(20)">
+
+        <Frame CornerRadius="10" BackgroundColor="Color.LightBlue">
+            <StackLayout Orientation="StackOrientation.Vertical" HorizontalOptions="LayoutOptions.Center">
+                
+                <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="Auto, Auto">
+                          
+                    <GridCell Row="1" Column="0" ColumnSpan="4">
+                        <Entry @bind-Text="input" WidthRequest="70"
+                               ClearButtonVisibility="ClearButtonVisibility.WhileEditing"
+                               ReturnType="ReturnType.Next">
+                        </Entry>
+                    </GridCell>
+
+                    <GridCell Row="2" Column="0">
+                        <Button OnClick="@Add" WidthRequest="30">+</Button>
+                    </GridCell>
+                    <GridCell Row="2" Column="1">
+                        <Button OnClick="@Subtract" WidthRequest="30">-</Button>
+                    </GridCell>
+                    <GridCell Row="2" Column="2">
+                        <Button OnClick="@Multiply" WidthRequest="30">*</Button>
+                    </GridCell>
+                    <GridCell Row="2" Column="3">
+                        <Button OnClick="@Divide" WidthRequest="30">/</Button>
+                    </GridCell>
+
+                    <GridCell Row="3" Column="0" ColumnSpan="4">
+                        <Label Text="@expression"
+                               VerticalTextAlignment="TextAlignment.Center" />
+                    </GridCell>
+
+                    <GridCell Row="4" Column="0" ColumnSpan="4">
+                        <Label Text="="
+                               FontAttributes="FontAttributes.Bold"
+                               VerticalTextAlignment="TextAlignment.Center" />
+                    </GridCell>
+
+                    <GridCell Row="5" Column="0" ColumnSpan="4">
+                        <Label Text="@result"
+                               VerticalTextAlignment="TextAlignment.Center" />
+                    </GridCell>
+                </Grid>
+
+            </StackLayout>
+
+        </Frame>
+
+    </StackLayout>
+</ContentView>
+
+@code { string input = "";
+            int inputValue = 0;
+            string expression = "";
+            int expressionResult = 0;
+            string result = "";
+
+            void Add()
+            {
+                if (Validate())
+                {
+                    AppendExpression("+");
+                    expressionResult += inputValue;
+                    result = expressionResult.ToString();
+                    input = "";
+                }
+            }
+            void Subtract()
+            {
+                if (Validate())
+                {
+                    AppendExpression("-");
+                    expressionResult -= inputValue;
+                    result = expressionResult.ToString();
+                    input = "";
+                }
+            }
+            void Multiply()
+            {
+                if (Validate())
+                {
+                    AppendExpression("*");
+                    expressionResult *= inputValue;
+                    result = expressionResult.ToString();
+                    input = "";
+                }
+            }
+            void Divide()
+            {
+                if (Validate())
+                {
+                    AppendExpression("/");
+                    expressionResult /= inputValue;
+                    result = expressionResult.ToString();
+                    input = "";
+                }
+            }
+
+            bool Validate()
+            {
+                return Int32.TryParse(input, out inputValue);
+            }
+
+            void AppendExpression(string arithmeticSymbol)
+            {
+                if (expression.Length > 0)
+                    expression += $" {arithmeticSymbol} {input}";
+                else expression += $"{input}";
+            } }
